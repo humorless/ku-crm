@@ -75,10 +75,10 @@
 
 ;; API
 (defn import-from-db!
-  [postgre-url db-path]
+  [db-path]
   (let [conn (db/init! db-path)
         write! (partial check-and-write conn)
-        students (postgre/from-db postgre-url)
+        students (postgre/get-all-students)
         data (students->data students)]
     (dorun
      (map write! data))))
