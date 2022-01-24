@@ -1,8 +1,11 @@
 (ns repl-sessions.db
-  (:require [replware.ku-crm.db :as db]
-            [datalevin.core :as d]))
+  (:require [java-time :as jt]
+            [replware.ku-crm.db :as db]
+            [datalevin.core :as d])
+  (:import java.util.Date)
+  (:import java.text.SimpleDateFormat))
 
-(def conn 
+(def conn
   (db/init! "/tmp/datalevin/my-db-1"))
 
 (db/get-max-eid conn)
@@ -21,3 +24,9 @@
 (db/query-eids conn {:name "De Morgan" :telephone "12345"})
 (db/query-eids conn {:name "De Morgan" :telephone "12345" :mobile "0099"})
 (db/query-eids conn {:name "De Morgan" :telephone "12345" :mobile "009"})
+
+;; test time
+(def x1 (SimpleDateFormat. "yyyy-MM-dd"))
+(def d (.parse x1 "2016-07-10"))
+
+(d/transact! conn [{:user/name "ggg" :user/serial "kk1234" :user/birth d}])
