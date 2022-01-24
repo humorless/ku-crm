@@ -1,13 +1,14 @@
 (ns repl-sessions.txor
-  (:require [replware.ku-crm.txor :as txor]))
+  (:require [replware.ku-crm.txor :as txor]
+            [replware.ku-crm.postgre :as postgre]))
 
-(def path "/Users/laurence/kumon/ku-crm/fake_student.tsv")
+(def postgre-url "postgresql://localhost/kuops_dev?user=laurence")
 (def db-path "/tmp/datalevin/my-db-txor")
 
-(def data (txor/from-csv path))
+(def data (postgre/from-db postgre-url))
 
 ;; show the hashmap style data
 (txor/students->data data)
 
 ;; import
-(txor/import-from-csv! path db-path)
+(txor/import-from-db! postgre-url db-path)

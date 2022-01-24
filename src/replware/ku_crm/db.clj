@@ -55,7 +55,7 @@
         class-v (query-attr conn :user/classroom-id classroom-id)
         old-v (query-attr conn :user/old-id old-id)
         data [name-v birth-v tele-v mobile-v class-v old-v]
-        _ (prn data)
+        ;; _ (prn data)
         data* (map (fn m [[_ s]] s)
                    (filter (fn f [[tag _]]
                              (= tag :yes)) data))]
