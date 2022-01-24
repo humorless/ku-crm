@@ -1,7 +1,9 @@
 {:paths ["src" "resources"]
 
  :deps
- {org.clojure/data.csv {:mvn/version "1.0.0"}
+ {conman/conman {:mvn/version "0.9.3"}
+  org.postgresql/postgresql {:mvn/version "42.2.23"}
+  org.clojure/data.csv {:mvn/version "1.0.0"}
   datalevin/datalevin {:mvn/version "0.5.28"}
   org.clojure/clojure {:mvn/version "1.10.1"}}
 
