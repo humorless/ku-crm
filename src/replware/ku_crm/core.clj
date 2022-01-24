@@ -1,7 +1,6 @@
 (ns replware.ku-crm.core
   (:require [replware.ku-crm.db :as db]
-            [replware.ku-crm.txor :as txor]
-            [replware.ku-crm.dump :as dump])
+            [replware.ku-crm.txor :as txor])
   (:gen-class))
 
 (defn -main

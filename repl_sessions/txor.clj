@@ -1,6 +1,6 @@
 (ns repl-sessions.txor
   (:require [datalevin.core :as d]
-            [replware.ku-crm.dump :as dump]
+            [replware.ku-crm.dsync :as dsync]
             [replware.ku-crm.db :as db]
             [replware.ku-crm.txor :as txor]
             [replware.ku-crm.postgre :as postgre]))
@@ -24,5 +24,9 @@
   (db/get-max-eid conn))
 
 ;; after import: show content
-(def conn (db/init! db-path))
-(dump/pull-users conn)
+(comment
+  (def conn (db/init! db-path))
+  (def users (dsync/pull-users conn))
+  (map dsync/ops-student users))
+
+(dsync/->ops-students-table db-path)

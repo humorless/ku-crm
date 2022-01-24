@@ -2,6 +2,7 @@
 
  :deps
  {conman/conman {:mvn/version "0.9.3"}
+  com.github.seancorfield/next.jdbc {:mvn/version "1.2.761"}
   org.postgresql/postgresql {:mvn/version "42.2.23"}
   org.clojure/data.csv {:mvn/version "1.0.0"}
   datalevin/datalevin {:mvn/version "0.5.28"}
