@@ -22,18 +22,21 @@
    TODO: double check the source csv format
          NULL data should be nil value, not empty string"
   [rows]
-  (map (fn [{:keys [center_symbol ematter_student_symbol
-                    student_name birth_date mobile_phone_number
-                    phone_number]}]
-         (let [base {:name student_name}
-               datum (cond-> base
-                       (non-empty-field? birth_date) (assoc :birth birth_date)
-                       (non-empty-field? phone_number) (assoc :telephone phone_number)
-                       (non-empty-field? mobile_phone_number) (assoc :mobile mobile_phone_number)
-                       (non-empty-field? center_symbol) (assoc :classroom-id center_symbol)
-                       (non-empty-field? ematter_student_symbol) (assoc :old-id ematter_student_symbol))]
-           datum))
-       rows))
+  (map-indexed
+   (fn [idx {:keys [center_symbol ematter_student_symbol
+                student_name birth_date mobile_phone_number
+                phone_number]}]
+     (when (zero? (mod idx 100))
+       (prn "processsing to the " (inc idx) "order of student data."))
+     (let [base {:name student_name}
+           datum (cond-> base
+                   (non-empty-field? birth_date) (assoc :birth birth_date)
+                   (non-empty-field? phone_number) (assoc :telephone phone_number)
+                   (non-empty-field? mobile_phone_number) (assoc :mobile mobile_phone_number)
+                   (non-empty-field? center_symbol) (assoc :classroom-id center_symbol)
+                   (non-empty-field? ematter_student_symbol) (assoc :old-id ematter_student_symbol))]
+       datum))
+   rows))
 
 (defn map->nsmap
   [m n]
@@ -79,6 +82,7 @@
   (let [conn (db/init! db-path)
         write! (partial check-and-write conn)
         students (postgre/get-all-students)
+        _ (prn "Get all the students: " (count students))
         data (students->data students)]
     (dorun
      (map write! data))))
