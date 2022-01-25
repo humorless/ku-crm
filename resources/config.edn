@@ -1,0 +1,4 @@
+{; set your dev database connection URL here
+ ; :database-url "postgresql://localhost/kuops_dev?user=laurence&password=db_user_password_here"
+ :database-url "postgresql://localhost/kuops_dev"
+}

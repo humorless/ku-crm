@@ -8,9 +8,10 @@ A simple operational database system used to manage customer information.
 ```
 
 ## How to use
-1. Setup the postgre-url, which points to data warehouse
-2. Clear the ops_students table inside the postgre-url by `bin/ops_students.sh`
-3. Run the command
+1. Config the `database-url` at the file `resources/config.edn`. The database-url points to data warehouse.
+2. Build the `ku-crm` by using `bin/build.sh`
+3. Clear the ops_students table inside the postgre-url by `bin/ops_students.sh`
+4. Run the command
 ```
  ;; Assume that we want to store the operational database at the directory ./resources/datalevin/db
  java -jar target/ku-crm.jar :import ./resources/datalevin/db
