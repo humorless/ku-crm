@@ -5,13 +5,17 @@
   (:gen-class))
 
 (defn -main
-  "java -jar ku-crm-1.0.0-standalone.jar $CMD $DB_FILE_PATH"
+  "java -jar target/ku-crm.jar $CMD $DB_FILE_PATH
+
+  Example:
+   java -jar target/ku-crm.jar :import ./resources/datalevin/db
+   java -jar target/ku-crm.jar :sync ./resources/datalevin/db  "
   [& args]
   (let [cmd (first args)
         dtlv-path (second args)]
     (cond
-      (= cmd "import") (txor/import-from-db! dtlv-path)
-      (= cmd "sync") (dsync/->ops-students-table))))
+      (= cmd ":import") (txor/import-from-db! dtlv-path)
+      (= cmd ":sync") (dsync/->ops-students-table dtlv-path))))
 
 ;;TODO
 ;; - provide some options:

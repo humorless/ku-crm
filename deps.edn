@@ -1,4 +1,4 @@
-{:paths ["src" "resources"]
+{:paths ["src" "resources" "classes"]
 
  :deps
  {conman/conman {:mvn/version "0.9.3"}
@@ -9,7 +9,12 @@
   org.clojure/clojure {:mvn/version "1.10.1"}}
 
  :aliases
- {:dev
+ {:uberjar
+  {:replace-deps {uberdeps/uberdeps {:mvn/version "1.1.2"}}
+   :replace-paths []
+   :main-opts ["-m" "uberdeps.uberjar"]}
+
+  :dev
   {:extra-paths ["dev"]
    :extra-deps  {}}
 
