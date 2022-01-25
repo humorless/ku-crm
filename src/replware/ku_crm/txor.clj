@@ -24,8 +24,8 @@
   [rows]
   (map-indexed
    (fn [idx {:keys [center_symbol ematter_student_symbol
-                student_name birth_date mobile_phone_number
-                phone_number]}]
+                    student_name birth_date mobile_phone_number
+                    phone_number]}]
      (when (zero? (mod idx 100))
        (prn "processsing to the " (inc idx) "order of student data."))
      (let [base {:name student_name}
@@ -76,13 +76,26 @@
       (d/transact! conn [tx**])
       (duplicated-warn datum))))
 
+(defn direct-write
+  "Handle one student datum"
+  [conn {:keys [classroom-id] :as datum}]
+  (let [[tag prefix]  (class-id->prefix classroom-id)
+        tx (map->nsmap datum "user")
+        new-eid (db/get-max-eid conn)
+        serial (str prefix (pprint/cl-format nil "~8,'0d" (inc new-eid)))
+        tx* (assoc tx :user/serial serial
+                   :user/classroom-type tag)
+        tx** (compact tx*)]
+    (d/transact! conn [tx**])))
+
 ;; API
 (defn import-from-db!
   [db-path]
   (let [conn (db/init! db-path)
-        write! (partial check-and-write conn)
+        write! (partial direct-write conn)
         students (postgre/get-all-students)
         _ (prn "Get all the students: " (count students))
-        data (students->data students)]
+        data (students->data students)
+        data* (distinct data)]
     (dorun
-     (map write! data))))
+     (map write! data*))))
