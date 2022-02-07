@@ -1,4 +1,4 @@
-(ns replware.ku-crm.postgre
+(ns replware.ku-crm.sql
   "The namespace for connecting postgre
 
   PostgreSQL does not seem to perform a conversion from `java.util.Date` to a SQL
@@ -11,21 +11,22 @@
             [aero.core :as aero]))
 
 (def config (aero/read-config
-              (io/resource "config.edn")))
+             (io/resource "config.edn")))
 
 (def db-entry {:jdbcUrl
                (:database-url config)})
 
 (def conn (jdbc/get-datasource db-entry))
 
-(def sqlmap {:select [:*]
-             :from [:students]})
+(def all-students-sqlmap
+  {:select [:*]
+   :from [:student]})
 
-(jdbc/execute! conn (sql/format sqlmap))
+(defn get-all-students []
+  (jdbc/execute! conn (sql/format all-students-sqlmap)))
 
 (comment
   (get-all-students)
   (create-student! {:id  ""
                     :name ""
-                    :birth ""})
-  )
+                    :birth ""}))

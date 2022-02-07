@@ -1,14 +1,14 @@
-(ns repl-sessions.txor
+(ns repl-sessions.import
   (:require [datalevin.core :as d]
-            [replware.ku-crm.dsync :as dsync]
+         ;; [replware.ku-crm.dsync :as dsync]
             [replware.ku-crm.db :as db]
             [replware.ku-crm.txor :as txor]
-            [replware.ku-crm.postgre :as postgre]))
+            [replware.ku-crm.sql :as sql]))
 
 (def db-path "/tmp/datalevin/my-db-txor")
 
 ;; show the data just get from postgre
-(def data (postgre/get-all-students))
+(def data (sql/get-all-students))
 ;; show the rows
 (count data)
 ;; show the hashmap style data
@@ -27,6 +27,6 @@
 (comment
   (def conn (db/init! db-path))
   (def users (dsync/pull-users conn))
-  (map dsync/ops-student users))
-
-(dsync/->ops-students-table db-path)
+  (map dsync/ops-student users)
+  (dsync/->ops-students-table db-path)
+)

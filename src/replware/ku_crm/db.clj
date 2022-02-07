@@ -20,32 +20,32 @@
       (:identity tags)
       (assoc :db/unique :db.unique/identity))))
 
-(def entity [[:user/serial :string "The new id of the student entity" :identity]
-             [:user/classroom-type :keyword]
+(def entity [[:student/serial :string "The new id of the student entity" :identity]
+             [:student/classroom-type :keyword]
              ;; begin the schema inherit from old system
-             [:user/center_symbol :string]
-             [:user/registration_date :instant]
-             [:user/ematter_student_symbol :string]
-             [:user/student_name :string]
-             [:user/gender :string]
-             [:user/birth_date :instant]
+             [:student/center_symbol :string]
+             [:student/registration_date :instant]
+             [:student/ematter_student_symbol :string]
+             [:student/student_name :string]
+             [:student/gender :string]
+             [:student/birth_date :instant]
              ;; learning section
-             [:user/school_grade :string]
-             [:user/graduation_year :long]
+             [:student/school_grade :string]
+             [:student/graduation_year :long]
              ;; parent section
-             [:user/parent_name :string]
-             [:user/parent_gender :string]
-             [:user/parent_birth_date :instant]
+             [:student/parent_name :string]
+             [:student/parent_gender :string]
+             [:student/parent_birth_date :instant]
              ;; contact section
-             [:user/email_address :string]
-             [:user/mobile_phone_number :string]
-             [:user/phone_number :string]
-             [:user/postal_code :string]
-             [:user/address :string]
+             [:student/email_address :string]
+             [:student/mobile_phone_number :string]
+             [:student/phone_number :string]
+             [:student/postal_code :string]
+             [:student/address :string]
              ;; other section
-             [:user/hdyhau :string]
-             [:user/hdyhau_other :string]
-             [:user/note :string]])
+             [:student/hdyhau :string]
+             [:student/hdyhau_other :string]
+             [:student/note :string]])
 
 (def schema
   (reduce (fn [coll {:db/keys [ident] :as m}]
