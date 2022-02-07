@@ -34,7 +34,7 @@
   (let [cmd (-> (hh/insert-into :ops_student)
                 (hh/values [m])
                 (sql/format {:pretty true}))]
-    (prn cmd)
+    ;; (prn cmd)
     (jdbc/execute! conn cmd)))
 
 (comment
