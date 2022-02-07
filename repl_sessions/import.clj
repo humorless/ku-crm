@@ -23,10 +23,4 @@
 (d/with-conn [conn db-path]
   (db/get-max-eid conn))
 
-;; after import: show content
-(comment
-  (def conn (db/init! db-path))
-  (def users (dsync/pull-users conn))
-  (map dsync/ops-student users)
-  (dsync/->ops-students-table db-path)
-)
+;; After import: go to repl-sessions.import namespace to continue testing

@@ -1,6 +1,5 @@
 (ns repl-sessions.db
-  (:require [java-time :as jt]
-            [replware.ku-crm.db :as db]
+  (:require [replware.ku-crm.db :as db]
             [datalevin.core :as d])
   (:import java.util.Date)
   (:import java.text.SimpleDateFormat))

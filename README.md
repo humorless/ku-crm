@@ -10,7 +10,7 @@ A simple operational database system used to manage customer information.
 ## How to use
 1. Config the `database-url` at the file `resources/config.edn`. The database-url points to data warehouse.
 2. Build the `ku-crm` by using `bin/build.sh`
-3. Clear the ops_students table inside the postgre-url by `bin/ops_students.sh`
+3. Clear the `ops_student` table inside the data warehouse by `bin/ops_student.sh`
 4. Run the command
 ```
  ;; Assume that we want to store the operational database at the directory ./resources/datalevin/db
@@ -27,8 +27,8 @@ A simple operational database system used to manage customer information.
     | data warehouse |                  | ops database |
     |----------------|   <-- sync <---  |--------------|
 ```
-1. the original data stored at `students` table at the data warehouse.
-2. the `ops_students` table at the data warehouse should be synced from ops database.
+1. the original data stored at `student` table at the data warehouse.
+2. the `ops_student` table at the data warehouse should be synced from ops database.
 
 ## License
 
