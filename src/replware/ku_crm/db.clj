@@ -1,25 +1,56 @@
 (ns replware.ku-crm.db
   (:require [datalevin.core :as d]))
 
-(def schema {:user/serial {:db/valueType :db.type/string
-                           :db/unique    :db.unique/identity
-                           :db/cardinality :db.cardinality/one}
-             ;; :db/valueType is optional, if unspecified, the attribute will be
-             ;; treated as EDN blobs, and may not be optimal for range queries
-             :user/name {:db/valueType :db.type/string
-                         :db/cardinality :db.cardinality/one}
-             :user/birth {:db/valueType :db.type/instant
-                          :db/cardinality :db.cardinality/one}
-             :user/telephone {:db/valueType :db.type/string
-                              :db/cardinality :db.cardinality/one}
-             :user/mobile {:db/valueType :db.type/string
-                           :db/cardinality :db.cardinality/one}
-             :user/classroom-id {:db/valueType :db.type/string
-                                 :db/cardinality :db.cardinality/one}
-             :user/classroom-type {:db/valueType :db.type/keyword
-                                   :db/cardinality :db.cardinality/one}
-             :user/old-id {:db/valueType :db.type/string
-                           :db/cardinality :db.cardinality/one}})
+(defn expand-entity
+  "Provide a very concise notation for Datomic schema, for rapid application
+  development."
+  [[ident type ?doc & tags]]
+  (let [[?doc tags] (if (string? ?doc)
+                      [?doc (set tags)]
+                      [nil (cons ?doc (set tags))])]
+    (cond-> {:db/ident ident
+             :db/valueType (keyword "db.type" (name type))
+             :db/cardinality :db.cardinality/one}
+      ?doc
+      (assoc :db/doc ?doc)
+      (:many tags)
+      (assoc :db/cardinality :db.cardinality/many)
+      (:unique tags)
+      (assoc :db/unique :db.unique/value)
+      (:identity tags)
+      (assoc :db/unique :db.unique/identity))))
+
+(def entity [[:user/serial :string "The new id of the student entity" :identity]
+             [:user/classroom-type :keyword]
+             ;; begin the schema inherit from old system
+             [:user/center_symbol :string]
+             [:user/registration_date :instant]
+             [:user/ematter_student_symbol :string]
+             [:user/student_name :string]
+             [:user/gender :string]
+             [:user/birth_date :instant]
+             ;; learning section
+             [:user/school_grade :string]
+             [:user/graduation_year :long]
+             ;; parent section
+             [:user/parent_name :string]
+             [:user/parent_gender :string]
+             [:user/parent_birth_date :instant]
+             ;; contact section
+             [:user/email_address :string]
+             [:user/mobile_phone_number :string]
+             [:user/phone_number :string]
+             [:user/postal_code :string]
+             [:user/address :string]
+             ;; other section
+             [:user/hdyhau :string]
+             [:user/hdyhau_other :string]
+             [:user/note :string]])
+
+(def schema
+  (reduce (fn [coll {:db/keys [ident] :as m}]
+            (assoc coll ident (dissoc m :db/ident))) {}
+          (map expand-entity entity)))
 
 ;; API
 (defn init!
