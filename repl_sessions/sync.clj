@@ -8,7 +8,8 @@
 
 (def users (dsync/pull-students conn))
 
-(map dsync/ops-student users)
+(count users)
+(dsync/ops-student (first users))
 
-(dsync/->ops-student-table db-path)
+(dsync/sync->ops-student-table! db-path)
 

@@ -15,7 +15,7 @@
         dtlv-path (second args)]
     (cond
       (= cmd ":import") (txor/import-from-db! dtlv-path)
-      (= cmd ":sync") (dsync/->ops-student-table dtlv-path))))
+      (= cmd ":sync") (dsync/sync->ops-student-table! dtlv-path))))
 
 ;;TODO
 ;; - provide some options:

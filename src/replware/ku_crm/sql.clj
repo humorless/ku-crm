@@ -27,14 +27,16 @@
   (jdbc/execute! conn (sql/format all-students-sqlmap)))
 
 (defn create-student!
-  "It does not matter if the hashmap `m` is using namespaced key or not.
+  "Input argument is a list of hashmap `m`, so it denoted as `ms`.
+
+   It does not matter if the hashmap `m` is using namespaced key or not.
    However, m has to have a `serial` key.
    If certain column does not exist in `m`, that column will be filled with NULL"
-  [m]
+  [ms]
   (let [cmd (-> (hh/insert-into :ops_student)
-                (hh/values [m])
+                (hh/values (vec ms))
                 (sql/format {:pretty true}))]
-    ;; (prn cmd)
+    (prn "the batch size is: " (count ms))
     (jdbc/execute! conn cmd)))
 
 (comment

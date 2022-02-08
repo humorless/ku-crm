@@ -16,9 +16,11 @@
       (update :student/classroom-type str)))
 
 ;; API
-(defn ->ops-student-table [db-path]
+(defn sync->ops-student-table! [db-path]
   (let [conn (db/init! db-path)
         students (pull-students conn)
-        data (map ops-student students)]
+        data-segments (partition 1000 1000 []
+                       (map ops-student students))]
+    ;; (prn "data-segments is:" data-segments)
     (dorun
-     (map #(sql/create-student! %) data))))
+     (map #(sql/create-student! %) data-segments))))
