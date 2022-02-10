@@ -3,7 +3,7 @@
   (:require [babashka.pods :as pods]
             [clojure.pprint :as  pprint]))
 
-(pods/load-pod 'huahaiy/datalevin "0.5.14")
+(pods/load-pod 'huahaiy/datalevin "0.5.28")
 (require '[pod.huahaiy.datalevin :as d])
 
 (def db-path "/tmp/datalevin/txor")
